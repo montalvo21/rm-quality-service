@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+
+# Ignore local VS Code settings
+.vscode/
+
+# Ignore sensitive environment files
+.env
+.env.local
+credentials.json
+service-account.json
+*.pem
