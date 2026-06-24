@@ -2,20 +2,29 @@
  * R&M Quality Service - Google Apps Script
  *
  * Hay que pegar este código en Extensiones > Apps Script dentro de tu Google Sheet.
- * Cambiá SHEET_NAME si tu pestaña tiene otro nombre.
+ * El script crea automáticamente una pestaña mensual, por ejemplo: JULIO 2026.
  */
 
-const SHEET_NAME = "JULIO 01";
 const HEADERS = [
   "N° DE ORDEN",
+  "FECHA DE REGISTRO",
+  "HORA DE REGISTRO",
   "CLIENTE",
   "TELEFONO / WHATSAPP",
   "DIRECCION DE ENTREGA",
   "HORARIO",
   "ESPECIFICACIONES O COMENTARIOS",
-  "FECHA DE REGISTRO",
-  "HORA DE REGISTRO",
   "ESTADO"
+];
+
+const STATUS_OPTIONS = [
+  "Recibido",
+  "Confirmado",
+  "Recolectado",
+  "En ruta",
+  "Entregado",
+  "No entregado",
+  "Cancelado"
 ];
 
 function doPost(e) {
@@ -33,17 +42,10 @@ function doPost(e) {
     validateRequiredData(data);
 
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    let sheet = spreadsheet.getSheetByName(SHEET_NAME);
-
-    if (!sheet) {
-      sheet = spreadsheet.insertSheet(SHEET_NAME);
-    }
-
-    ensureHeaders(sheet);
-
     const now = new Date();
     const timezone = spreadsheet.getSpreadsheetTimeZone() || "America/El_Salvador";
-    const orderNumber = createSequentialOrderNumber(sheet);
+    const sheet = getMonthlySheet(spreadsheet, now, timezone);
+    const orderNumber = createSequentialOrderNumber(spreadsheet);
 
     sheet.appendRow([
       orderNumber,
@@ -111,11 +113,62 @@ function ensureHeaders(sheet) {
   }
 }
 
-function createSequentialOrderNumber(sheet) {
-  const lastRow = sheet.getLastRow();
+function getMonthlySheet(spreadsheet, date, timezone) {
+  const sheetName = getMonthlySheetName(date, timezone);
+  let sheet = spreadsheet.getSheetByName(sheetName);
+
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(sheetName);
+  }
+
+  ensureHeaders(sheet);
+  applyStatusDropdown(sheet);
+  sheet.autoResizeColumns(1, HEADERS.length);
+
+  return sheet;
+}
+
+function getMonthlySheetName(date, timezone) {
+  const monthNumber = Number(Utilities.formatDate(date, timezone, "M"));
+  const year = Utilities.formatDate(date, timezone, "yyyy");
+  const months = [
+    "ENERO",
+    "FEBRERO",
+    "MARZO",
+    "ABRIL",
+    "MAYO",
+    "JUNIO",
+    "JULIO",
+    "AGOSTO",
+    "SEPTIEMBRE",
+    "OCTUBRE",
+    "NOVIEMBRE",
+    "DICIEMBRE"
+  ];
+
+  return months[monthNumber - 1] + " " + year;
+}
+
+function applyStatusDropdown(sheet) {
+  const lastRow = Math.max(sheet.getMaxRows(), 1000);
+  const statusColumn = HEADERS.indexOf("ESTADO") + 1;
+
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(STATUS_OPTIONS, true)
+    .setAllowInvalid(false)
+    .build();
+
+  sheet.getRange(2, statusColumn, lastRow - 1, 1).setDataValidation(rule);
+}
+
+function createSequentialOrderNumber(spreadsheet) {
+  const sheets = spreadsheet.getSheets();
   let highestNumber = 0;
 
-  if (lastRow > 1) {
+  sheets.forEach(function (sheet) {
+    const lastRow = sheet.getLastRow();
+    if (lastRow <= 1) return;
+
     const orderValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues().flat();
 
     orderValues.forEach(function (value) {
@@ -124,7 +177,7 @@ function createSequentialOrderNumber(sheet) {
         highestNumber = Math.max(highestNumber, Number(match[1]));
       }
     });
-  }
+  });
 
   const nextNumber = highestNumber + 1;
   return "RM-" + String(nextNumber).padStart(4, "0");
@@ -152,8 +205,6 @@ function jsonResponse(payload) {
  */
 function setupSheet() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = spreadsheet.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = spreadsheet.insertSheet(SHEET_NAME);
-  ensureHeaders(sheet);
-  sheet.autoResizeColumns(1, HEADERS.length);
+  const timezone = spreadsheet.getSpreadsheetTimeZone() || "America/El_Salvador";
+  getMonthlySheet(spreadsheet, new Date(), timezone);
 }
