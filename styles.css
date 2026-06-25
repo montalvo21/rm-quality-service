@@ -219,9 +219,15 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .map-center span { font-size: 1.4rem; font-weight: 800; line-height: 1; }
 .map-center small { margin-top: -25px; font-size: .46rem; }
 .map-pin { position: absolute; z-index: 3; width: 17px; height: 17px; border: 4px solid var(--white); border-radius: 50%; background: var(--green); box-shadow: 0 5px 12px rgba(30,20,100,.2); }
-.pin-one { top: 85px; left: 110px; }.pin-two { top: 110px; right: 80px; }.pin-three { right: 105px; bottom: 85px; }.pin-four { bottom: 105px; left: 80px; }
+.pin-one { top: 85px; left: 110px; }
+.pin-two { top: 110px; right: 80px; }
+.pin-three { right: 105px; bottom: 85px; }
+.pin-four { bottom: 150px; left: 155px; }
 .map-label { position: absolute; z-index: 4; padding: 7px 10px; border-radius: 9px; background: var(--white); box-shadow: 0 8px 20px rgba(31,25,105,.12); font-size: .55rem; font-weight: 700; }
-.label-one { top: 60px; left: 33px; }.label-two { top: 77px; right: 22px; }.label-three { right: 38px; bottom: 55px; }
+.label-one { top: 60px; left: 33px; }
+.label-two { top: 77px; right: 22px; }
+.label-three { right: 38px; bottom: 55px; }
+.label-four { left: 70px; bottom: 110px; }
 .coverage-copy > p { margin: 18px 0 27px; color: var(--muted); }
 .coverage-list { display: flex; flex-wrap: wrap; gap: 9px; }
 .coverage-list span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 20px; color: #535165; background: var(--light); font-size: .65rem; font-weight: 600; }
@@ -349,8 +355,14 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
   .orbit-one { inset: 70px 28px; }
   .orbit-two { inset: 38px 85px; }
   .map-center { width: 90px; height: 90px; }
-  .label-one { top: 38px; left: 10px; }.label-two { top: 53px; right: 4px; }.label-three { right: 13px; bottom: 38px; }
-  .pin-one { top: 75px; left: 77px; }.pin-two { top: 88px; right: 61px; }.pin-three { right: 72px; bottom: 73px; }.pin-four { bottom: 83px; left: 52px; }
+  .label-one { top: 38px; left: 10px; }
+  .label-two { top: 53px; right: 4px; }
+  .label-three { right: 13px; bottom: 38px; }
+  .label-four { left: 30px; bottom: 74px; }
+  .pin-one { top: 75px; left: 77px; }
+  .pin-two { top: 88px; right: 61px; }
+  .pin-three { right: 72px; bottom: 73px; }
+  .pin-four { bottom: 112px; left: 92px; }
   .contact-section { padding-top: 10px; }
   .contact-card { padding: 34px 24px; border-radius: 24px; }
   .contact-button { width: 100%; }

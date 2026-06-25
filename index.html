@@ -3,9 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="R&M Quality Service: delivery, mensajería, recolección y entrega de paquetes en el área metropolitana de El Salvador.">
+  <meta name="description" content="R&M Quality Service ofrece delivery, mensajería, recolección y entrega de paquetes en El Salvador para emprendedores, empresas y clientes particulares.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="R&M Quality Service">
   <meta name="theme-color" content="#3424c7">
-  <title>R&M Quality Service | Delivery y mensajería</title>
+  <link rel="canonical" href="https://rmqualityservice.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_SV">
+  <meta property="og:site_name" content="R&M Quality Service">
+  <meta property="og:title" content="R&M Quality Service | Delivery y mensajería en El Salvador">
+  <meta property="og:description" content="Servicio de delivery, mensajería, recolección y entrega de paquetes para negocios y clientes particulares en El Salvador.">
+  <meta property="og:url" content="https://rmqualityservice.com/">
+  <meta property="og:image" content="https://rmqualityservice.com/assets/logo-rm.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="R&M Quality Service | Delivery y mensajería en El Salvador">
+  <meta name="twitter:description" content="Solicitá entregas, recolecciones y mensajería para tu negocio o paquete personal con R&M Quality Service.">
+  <meta name="twitter:image" content="https://rmqualityservice.com/assets/logo-rm.png">
+
+  <title>R&M Quality Service | Delivery y mensajería en El Salvador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,6 +42,67 @@
         window.scrollTo(0, 0);
       }
     });
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "R&M Quality Service",
+      "description": "Servicio de delivery, mensajería, recolección y entrega de paquetes en El Salvador.",
+      "url": "https://rmqualityservice.com/",
+      "logo": "https://rmqualityservice.com/assets/logo-rm.png",
+      "image": "https://rmqualityservice.com/assets/logo-rm.png",
+      "telephone": "+50364353296",
+      "priceRange": "$$",
+      "areaServed": [
+        "Ahuachapán",
+        "Santa Ana",
+        "Sonsonate",
+        "La Libertad",
+        "Chalatenango",
+        "San Salvador",
+        "Cuscatlán",
+        "La Paz",
+        "Cabañas",
+        "San Vicente",
+        "Usulután",
+        "San Miguel",
+        "Morazán",
+        "La Unión"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SV"
+      },
+      "sameAs": [
+        "https://instagram.com/rmqualityservice",
+        "https://www.tiktok.com/@rmqualityservice",
+        "https://wa.me/50364353296"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Delivery"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Mensajería"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Recolección y entrega de paquetes"
+          }
+        }
+      ]
+    }
   </script>
   <script src="script.js" defer></script>
 </head>
@@ -281,6 +359,8 @@
                   <option value="">Seleccioná un horario</option>
                   <option value="8:00 AM a 12:00 PM">8:00 AM a 12:00 PM</option>
                   <option value="12:00 PM a 5:00 PM">12:00 PM a 5:00 PM</option>
+                  <option value="08:00 PM a 5:00 PM">08:00 PM a 5:00 PM</option>
+                  <option value="Horario Personalizado">Horario Personalizado</option>
                 </select>
               </div>
               <small class="error-message" id="schedule-error"></small>
@@ -290,7 +370,7 @@
               <label for="specifications">Especificaciones <span class="optional">(opcional)</span></label>
               <div class="input-wrap textarea-wrap">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5"/></svg>
-                <textarea id="specifications" name="specifications" rows="4" placeholder="Indicaciones especiales, referencias o comentarios"></textarea>
+                <textarea id="specifications" name="specifications" rows="4" placeholder="Indicaciones especiales, referencias, comentarios, horarios."></textarea>
               </div>
             </div>
 
@@ -309,24 +389,25 @@
 
     <section class="section coverage-section" id="cobertura">
       <div class="container coverage-grid">
-        <div class="coverage-map reveal" aria-label="Ilustración de cobertura en el área metropolitana">
+        <div class="coverage-map reveal" aria-label="Ilustración de cobertura en el área departamental">
           <div class="map-orbit orbit-one"></div>
           <div class="map-orbit orbit-two"></div>
           <div class="map-center"><span>R&M</span><small>Centro logístico</small></div>
           <span class="map-pin pin-one"></span><span class="map-pin pin-two"></span><span class="map-pin pin-three"></span><span class="map-pin pin-four"></span>
-          <div class="map-label label-one">Santa Tecla</div>
+          <div class="map-label label-one">Santa Ana</div>
           <div class="map-label label-two">San Salvador</div>
-          <div class="map-label label-three">Soyapango</div>
+          <div class="map-label label-three">San Miguel</div>
+          <div class="map-label label-four">La Unión</div>
         </div>
         <div class="coverage-copy reveal">
           <span class="eyebrow">Llegamos más cerca de vos</span>
-          <h2>Cobertura <span>metropolitana</span></h2>
-          <p>Coordinamos recolecciones y entregas en los principales municipios del Gran San Salvador.</p>
+          <h2>Cobertura <span>departamental</span></h2>
+          <p>Coordinamos recolecciones y entregas a todo El Salvador.</p>
           <div class="coverage-list">
-            <span>San Salvador</span><span>San Marcos</span><span>Santa Tecla</span><span>Antiguo Cuscatlán</span>
-            <span>Apopa</span><span>Ciudad Delgado</span><span>Ayutuxtepeque</span><span>Cuscatancingo</span>
-            <span>Mejicanos</span><span>Soyapango</span><span>Santo Tomás</span><span>Santiago Texacuangos</span>
-            <span>Ilopango</span><span>San Martín</span>
+            <span>Ahuachapán</span><span>Santa Ana</span><span>SonSonate</span><span>La Libertad</span>
+            <span>Chalatenango</span><span>San Salvador</span><span>Cuscatlán</span><span>La Paz</span>
+            <span>Cabañas</span><span>San Vicente</span><span>Usulután</span><span>San Miguel</span>
+            <span>Morazán</span><span>La Unión</span>
           </div>
           <div class="coverage-note">
             <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>
