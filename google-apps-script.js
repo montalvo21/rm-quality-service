@@ -104,12 +104,28 @@ function ensureHeaders(sheet) {
   });
 
   if (!headersMatch) {
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-    sheet.getRange(1, 1, 1, HEADERS.length)
-      .setFontWeight("bold")
-      .setBackground("#3B2CE2")
-      .setFontColor("#FFFFFF");
-    sheet.setFrozenRows(1);
+    const sheetHasData = sheet.getLastRow() > 1;
+    const headerRowIsEmpty = currentHeaders.every(function (value) {
+      return value === "";
+    });
+
+    // Para hojas nuevas normales, el script puede crear encabezados.
+    // Para Google Tables con columnas tipadas, evitamos sobrescribir encabezados
+    // porque puede causar: "This operation is not allowed on cells in typed columns".
+    if (!sheetHasData && headerRowIsEmpty) {
+      sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+      sheet.getRange(1, 1, 1, HEADERS.length)
+        .setFontWeight("bold")
+        .setBackground("#3B2CE2")
+        .setFontColor("#FFFFFF");
+      sheet.setFrozenRows(1);
+      return;
+    }
+
+    throw new Error(
+      "Los encabezados de la hoja no coinciden con el orden esperado. Revisá que la fila 1 tenga: " +
+      HEADERS.join(" | ")
+    );
   }
 }
 
@@ -122,7 +138,6 @@ function getMonthlySheet(spreadsheet, date, timezone) {
   }
 
   ensureHeaders(sheet);
-  applyStatusDropdown(sheet);
   sheet.autoResizeColumns(1, HEADERS.length);
 
   return sheet;
@@ -147,18 +162,6 @@ function getMonthlySheetName(date, timezone) {
   ];
 
   return months[monthNumber - 1] + " " + year;
-}
-
-function applyStatusDropdown(sheet) {
-  const lastRow = Math.max(sheet.getMaxRows(), 1000);
-  const statusColumn = HEADERS.indexOf("ESTADO") + 1;
-
-  const rule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(STATUS_OPTIONS, true)
-    .setAllowInvalid(false)
-    .build();
-
-  sheet.getRange(2, statusColumn, lastRow - 1, 1).setDataValidation(rule);
 }
 
 function createSequentialOrderNumber(spreadsheet) {
