@@ -292,7 +292,7 @@
         <div class="request-copy reveal">
           <span class="eyebrow eyebrow-light">Tu próxima entrega empieza aquí</span>
           <h2>Solicitá un envío en pocos minutos</h2>
-          <p>Ingresá los datos de la entrega. Nuestro equipo revisará tu solicitud y te contactará para confirmar disponibilidad y tarifa.</p>
+          <p>Ingresá los datos de la entrega, elegí la fecha del servicio y nuestro equipo revisará tu solicitud para confirmar disponibilidad y tarifa.</p>
           <div class="request-benefits">
             <div><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span><p><strong>Respuesta personalizada</strong><small>Confirmamos cada detalle contigo.</small></p></div>
             <div><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><p><strong>Tus datos protegidos</strong><small>Solo los usamos para gestionar tu envío.</small></p></div>
@@ -351,19 +351,31 @@
               <small class="error-message" id="address-error"></small>
             </div>
 
-            <div class="field">
-              <label for="schedule">Horario de entrega <span aria-hidden="true">*</span></label>
-              <div class="input-wrap select-wrap">
-                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>
-                <select id="schedule" name="schedule" required>
-                  <option value="">Seleccioná un horario</option>
-                  <option value="8:00 AM a 12:00 PM">8:00 AM a 12:00 PM</option>
-                  <option value="12:00 PM a 5:00 PM">12:00 PM a 5:00 PM</option>
-                  <option value="08:00 AM a 5:00 PM">08:00 AM a 5:00 PM</option>
-                  <option value="Horario Personalizado">Horario Personalizado</option>
-                </select>
+            <div class="field-row">
+              <div class="field">
+                <label for="delivery-date">Fecha de envío <span aria-hidden="true">*</span></label>
+                <div class="input-wrap">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 2v4M16 2v4M8 10h8M8 14h5"/></svg>
+                  <input id="delivery-date" name="deliveryDate" type="date" required aria-describedby="delivery-date-help">
+                </div>
+                <small id="delivery-date-help" class="field-help">Seleccioná la fecha en la que necesitás el servicio.</small>
+                <small class="error-message" id="delivery-date-error"></small>
               </div>
-              <small class="error-message" id="schedule-error"></small>
+
+              <div class="field">
+                <label for="schedule">Horario de entrega <span aria-hidden="true">*</span></label>
+                <div class="input-wrap select-wrap">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>
+                  <select id="schedule" name="schedule" required>
+                    <option value="">Seleccioná un horario</option>
+                    <option value="8:00 AM a 12:00 PM">8:00 AM a 12:00 PM</option>
+                    <option value="12:00 PM a 5:00 PM">12:00 PM a 5:00 PM</option>
+                    <option value="08:00 AM a 5:00 PM">08:00 AM a 5:00 PM</option>
+                    <option value="Horario Personalizado">Horario Personalizado</option>
+                  </select>
+                </div>
+                <small class="error-message" id="schedule-error"></small>
+              </div>
             </div>
 
             <div class="field">

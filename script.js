@@ -12,6 +12,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
 const header = document.querySelector(".site-header");
 const modal = document.querySelector("#success-modal");
+const deliveryDateInput = document.querySelector("#delivery-date");
 
 const requiredFields = {
   client: {
@@ -28,6 +29,16 @@ const requiredFields = {
     message: "Ingresá la dirección completa de entrega.",
     validate: (value) => value.length >= 8
   },
+  deliveryDate: {
+    element: document.querySelector("#delivery-date"),
+    errorId: "delivery-date-error",
+    message: "Seleccioná una fecha de envío válida.",
+    validate: (value) => {
+      const selectedDate = parseLocalDate(value);
+      const today = parseLocalDate(getTodayISODate());
+      return Boolean(selectedDate) && selectedDate >= today;
+    }
+  },
   schedule: {
     element: document.querySelector("#schedule"),
     message: "Seleccioná un horario de entrega."
@@ -38,10 +49,40 @@ function refreshOrderNumber() {
   orderInput.value = "Se asignará al registrar";
 }
 
+function getTodayISODate() {
+  const now = new Date();
+  const timezoneOffset = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - timezoneOffset).toISOString().split("T")[0];
+}
+
+function parseLocalDate(value) {
+  if (!value) return null;
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+}
+
+function formatDateForDisplay(value) {
+  const date = parseLocalDate(value);
+  if (!date) return "No especificada";
+
+  return new Intl.DateTimeFormat("es-SV", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  }).format(date);
+}
+
+function initializeDeliveryDate() {
+  const today = getTodayISODate();
+  deliveryDateInput.min = today;
+  deliveryDateInput.value = today;
+}
+
 function setFieldError(fieldName, message = "") {
   const config = requiredFields[fieldName];
   const fieldContainer = config.element.closest(".field");
-  const errorElement = document.querySelector(`#${fieldName}-error`);
+  const errorElement = document.querySelector(`#${config.errorId || `${fieldName}-error`}`);
   const hasError = Boolean(message);
 
   fieldContainer.classList.toggle("invalid", hasError);
@@ -81,6 +122,8 @@ function collectFormData() {
     client: data.get("client").trim(),
     phone: data.get("phone").trim(),
     address: data.get("address").trim(),
+    deliveryDate: data.get("deliveryDate"),
+    deliveryDateFormatted: formatDateForDisplay(data.get("deliveryDate")),
     schedule: data.get("schedule"),
     specifications: data.get("specifications").trim(),
     status: "Recibido"
@@ -95,6 +138,7 @@ function createWhatsAppUrl(data) {
     `*Cliente:* ${data.client}`,
     `*Teléfono:* ${data.phone}`,
     `*Dirección:* ${data.address}`,
+    `*Fecha de envío:* ${data.deliveryDateFormatted || formatDateForDisplay(data.deliveryDate)}`,
     `*Horario:* ${data.schedule}`,
     `*Especificaciones:* ${data.specifications || "Sin especificaciones"}`
   ].join("\n");
@@ -219,4 +263,5 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+initializeDeliveryDate();
 refreshOrderNumber();

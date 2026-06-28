@@ -9,6 +9,7 @@ const HEADERS = [
   "N° DE ORDEN",
   "FECHA DE REGISTRO",
   "HORA DE REGISTRO",
+  "FECHA DE ENVIO",
   "CLIENTE",
   "TELEFONO / WHATSAPP",
   "DIRECCION DE ENTREGA",
@@ -44,13 +45,15 @@ function doPost(e) {
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     const now = new Date();
     const timezone = spreadsheet.getSpreadsheetTimeZone() || "America/El_Salvador";
-    const sheet = getMonthlySheet(spreadsheet, now, timezone);
+    const deliveryDate = parseDeliveryDate(data.deliveryDate);
+    const sheet = getMonthlySheet(spreadsheet, deliveryDate, timezone);
     const orderNumber = createSequentialOrderNumber(spreadsheet);
 
     sheet.appendRow([
       orderNumber,
       Utilities.formatDate(now, timezone, "dd/MM/yyyy"),
       Utilities.formatDate(now, timezone, "hh:mm:ss a"),
+      Utilities.formatDate(deliveryDate, timezone, "dd/MM/yyyy"),
       sanitize(data.client),
       sanitize(data.phone),
       sanitize(data.address),
@@ -87,7 +90,7 @@ function doGet() {
 }
 
 function validateRequiredData(data) {
-  const required = ["client", "phone", "address", "schedule"];
+  const required = ["client", "phone", "address", "deliveryDate", "schedule"];
   const missing = required.filter(function (field) {
     return !data[field] || String(data[field]).trim() === "";
   });
@@ -95,6 +98,30 @@ function validateRequiredData(data) {
   if (missing.length) {
     throw new Error("Faltan campos obligatorios: " + missing.join(", "));
   }
+
+  parseDeliveryDate(data.deliveryDate);
+}
+
+function parseDeliveryDate(value) {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(String(value))) {
+    throw new Error("La fecha de envío no tiene un formato válido.");
+  }
+
+  const parts = String(value).split("-").map(Number);
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    throw new Error("La fecha de envío no es válida.");
+  }
+
+  return date;
 }
 
 function ensureHeaders(sheet) {
